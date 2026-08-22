@@ -49,7 +49,6 @@ Una característica distintiva del framework es el sistema de \textbf{aliasing d
 
 El aliasing se configura en tiempo de instanciación del modelo. Por ejemplo, al crear un modelo con \texttt{mode0="auditory"} y \texttt{mode1="visual"}, el sistema automáticamente genera los alias correspondientes, permitiendo que el método \texttt{run()} acepte parámetros como \texttt{auditory\_position} en lugar del genérico \texttt{mode0\_position}. Esta abstracción facilita la legibilidad del código de usuario sin sacrificar la generalidad interna del framework.
 
-
 \subsection{Clases principales}
 \label{subsec:snmsi_clases}
 
@@ -61,7 +60,6 @@ La arquitectura central se compone de varias clases principales que definen la e
 NDResult proporciona además herramientas integradas para el análisis de resultados mediante \textit{accessors} al estilo de pandas: \texttt{result.plot} para visualización y \texttt{result.stats} para estadísticas descriptivas. Incluyendo exportación a formatos estándar mediante el método \texttt{to\_ndr()}.
 
 \textbf{NDResultCollection} permite agregar múltiples objetos NDResult, facilitando el análisis de barridos de parámetros o comparaciones entre modelos. Esta clase implementa operaciones de filtrado, agrupamiento y reducción sobre colecciones de resultados, y extiende las funcionalidades con análisis específicos del área como sesgo cross-modal e inferencia causal. Similar a NDResult, ofrece la capacidad de exportar los datos a formato NetCDF comprimido con metadatos en un formato denominado \textbf{.ndc}.
-
 
 \textbf{ParameterSweep} es una herramienta para realizar barridos sistemáticos de parámetros sobre cualquier modelo. Dado un modelo y un conjunto de rangos para sus parámetros, ParameterSweep ejecuta automáticamente simulaciones para todas las combinaciones especificadas, almacenando los resultados en una NDResultCollection para análisis posterior.
 
@@ -81,7 +79,6 @@ El almacenamiento y manipulación de datos multidimensionales se implementa medi
 
 Para la persistencia de datos, el framework utiliza un formato basado en archivos ZIP que combina \acrfull{NetCDF} para los datos multidimensionales con JSON para los metadatos. Los resultados de simulaciones se guardan en archivos con extensión \textbf{.ndr} (\textit{NDResult}) o \textbf{.ndc} (\textit{NDResultCollection}). Internamente, cada archivo ZIP contiene: \texttt{metadata.json} con información del modelo, parámetros de ejecución, versión del framework, plataforma y timestamp; y \texttt{nddata.nc} con los datos xarray en formato NetCDF. Esta estructura permite que los resultados sean cargados y analizados posteriormente, compartidos entre investigadores, o procesados con herramientas externas compatibles con NetCDF.
 
-
 % =============================================================================
 % SECCIÓN 3: MODELOS IMPLEMENTADOS
 % =============================================================================
@@ -96,8 +93,6 @@ El \textbf{integrador bimodal óptimo} óptimo implementa la combinación de se�
 
 La implementación permite especificar las varianzas de las señales visual y auditiva, ya sea como valores fijos o como funciones de la posición espacial (capturando, por ejemplo, la menor precisión auditiva en la periferia). El modelo proporciona una línea base teórica contra la cual comparar modelos más complejos.
 
-% \subsection{Inferencia causal bayesiana}
-% \label{subsec:snmsi_bayesiana}
 \medskip
 El modelo de \textbf{inferencia causal bayesiana} implementa el marco de \citet{kording2007causal} para inferir la estructura causal subyacente a las señales multisensoriales. A diferencia del integrador MLE, este modelo no asume automáticamente que las señales provienen de la misma fuente, sino que computa la probabilidad posterior de causa común versus causas separadas.
 
@@ -108,17 +103,10 @@ El \textbf{modelo de red de Cuppini} proporciona una implementación completa de
 
 La implementación soporta la presentación de estímulos audiovisuales con disparidades espaciales y temporales configurables, y extrae predicciones sobre el efecto ventrílocuo (sesgo de localización auditiva) y la inferencia causal (número de picos en la capa multisensorial).
 
-
-% \subsection{Red de inferencia causal espacio-temporal}
-% \label{subsec:snmsi_espaciotemporal}
 \medskip
 El modelo de \textbf{red de inferencia causal espacio-temporal} extiende la red de Cuppini para incorporar disparidades temporales además de espaciales. Permite estudiar la ventana de integración temporal, es decir, el rango de asincronías audiovisuales dentro del cual los estímulos se perciben como provenientes de una fuente común.
 
 La implementación incluye filtros temporales diferenciados para las modalidades visual y auditiva, capturando las diferentes latencias de procesamiento. Esto permite simular fenómenos como la ilusión del flash inducido por sonido (\textit{sound-induced flash illusion}), donde un único flash acompañado de múltiples sonidos se percibe como múltiples flashes.
-
-
-% El modelo de \textbf{red de inferencia causal espacio-temporal} extiende el modelo de Cuppini para incorporar disparidades temporales además de espaciales, permitiendo estudiar la ventana de integración temporal y el impacto de la asincronía audiovisual.
-
 
 % =============================================================================
 % SECCIÓN 5: IMPLEMENTACIÓN TÉCNICA
@@ -187,14 +175,12 @@ Un ejemplo típico de uso del framework para simular el efecto ventrílocuo es:
 \end{code}
 \vspace{1.5em}
 
-
 Los autores comparan las predicciones de modelos bayesianos y de redes neuronales, encontrando que ambos reproducen cualitativamente el patrón experimental de sesgo decreciente con la disparidad, pero con diferencias cuantitativas que podrían distinguirse experimentalmente.
 
 \subsection{Ilusión del flash inducido por sonido}
 \label{subsec:snmsi_flash}
 
 Esta ilusión, donde un único flash visual acompañado de múltiples sonidos se percibe como múltiples flashes, demuestra que la integración multisensorial puede alterar la percepción incluso de modalidades típicamente dominantes como la visión. El modelo de red de inferencia causal espacio-temporal, desarrollado por el grupo de investigación de los autores del framework, fue construido específicamente para dar cuenta de este fenómeno \citep{paredes2025scikit}.
-
 
 \subsection{Aplicaciones clínicas}
 \label{subsec:snmsi_clinicas}
@@ -223,8 +209,6 @@ Frameworks de redes neuronales recurrentes como \textbf{PyRates}\footnote{\url{h
 
 El desarrollo de Scikit-NeuroMSI continúa activamente, con varias direcciones planificadas para versiones futuras.
 
-% \begin{enumerate}
-%     \item
 \subsubsection{Mejoras arquitectónicas}
 \label{subsec:snmsi_mejoras}
 

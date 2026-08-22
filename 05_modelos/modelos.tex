@@ -68,14 +68,12 @@ La percepción puede entenderse como inferencia bayesiana sobre las causas laten
 
 La hipótesis del \textbf{muestreo neuronal} propone que, en lugar de representar esta distribución analíticamente, el cerebro la representa mediante muestras temporales. La actividad neuronal fluctuante proporciona muestras de la posterior, de modo que la distribución empírica de actividades a lo largo del tiempo aproxima $P(\mathbf{y}|\mathbf{x})$ \citep{echeveste2020cortical}. Formalmente, si $\mathbf{y}(t)$ representa la actividad neuronal instantánea:
 
-
 \begin{equation}
 \langle \mathbf{y}(t) \rangle_t \approx \mathbb{E}_{P(\mathbf{y}|\mathbf{x})}[\mathbf{y}]
 \label{eq:neural_sampling_mean}
 \end{equation}
 
 El lado izquierdo de esta ecuación denota el promedio temporal de la actividad neuronal, es decir, la media de las respuestas observadas a lo largo de una ventana de tiempo. El lado derecho representa el valor esperado de las variables latentes bajo la distribución posterior. La ecuación expresa que, si la red neuronal efectivamente muestrea de la posterior, entonces acumular y promediar estas muestras a lo largo del tiempo converge hacia la media de dicha distribución, análogamente a cómo los métodos de Monte Carlo aproximan valores esperados mediante promedios empíricos de muestras \citep{gerstner2002spiking}. Del mismo modo, la variabilidad y las correlaciones en las respuestas neuronales codifican la estructura de incertidumbre de la posterior.
-
 
 Esta perspectiva transforma la variabilidad neuronal de un fenómeno a ignorar en una característica funcional que codifica incertidumbre perceptual.
 
@@ -92,13 +90,10 @@ La conectividad entre neuronas depende de la \textbf{diferencia de orientación}
     \centering
     \includegraphics[width=0.90\textwidth]{04_antecedentes/figures/arquieche.png}
     \caption{
-        % a, Esquema del GSM. Un parche de imagen se construye como una combinación lineal de un conjunto fijo de características localizadas y orientadas, similares a las de un filtro de Gabor.
-        % b, proyección bidimensional de la distribución posterior sobre variables latentes dado un estímulo visual, calculada por el observador ideal bayesiano bajo el modelo generativo.
         El modelo generativo estadístico y el circuito neuronal correspondiente que implementa la inferencia probabilística basada en muestreo.
     }
     \label{fig:arquieche}
 \end{figure}
-
 
 \subsection{El modelo generativo (GSM)}
 \label{subsec:echeveste_gsm}
@@ -159,7 +154,6 @@ En el modelo, el contraste $z$ se aproxima con su valor verdadero $z^*$, dado qu
 P_{\text{GSM}}(\mathbf{y}|\mathbf{x}) \approx P_{\text{GSM}}(\mathbf{y}|\mathbf{x}, z^*)
 \label{eq:gsm_marginal}
 \end{equation}
-
 
 \subsubsection{Transformación de variables latentes a potenciales de membrana}
 
@@ -226,8 +220,6 @@ El ruido es gaussiano con media cero y correlaciones espaciales y temporales:
 \langle \eta_i(t) \rangle = 0, \quad \langle \eta_i(t) \eta_j(t+s)^\top \rangle = \Sigma_{ij}^\eta \exp(-|s|/\tau_\eta)
 \label{eq:noise_correlation}
 \end{equation}
-
-% donde $\tau_\eta$ es la escala temporal del ruido y $\boldsymbol{\Sigma}^\eta$ es la matriz de covarianza espacial instantánea, también parametrizada de forma circulante con 4 parámetros adicionales ($\sigma_E$, $\sigma_I$, $\rho$, $d_\sigma$).
 
 donde $\tau_\eta$ es la escala temporal del ruido y $\boldsymbol{\Sigma}^\eta$ es la matriz de covarianza espacial instantánea.
 
@@ -362,7 +354,6 @@ donde $\mathbf{C}^{(\alpha)}(\tau) = \text{corr}(\mathbf{u}(t), \mathbf{u}(t + \
 
 \textbf{Fase 1 (estocástica):} Se emplea un método de gradiente estocástico, una técnica de optimización donde el gradiente de la función de costo se estima a partir de un subconjunto de datos en lugar de calcularse exactamente. En este caso, se utilizan $N_{\text{trial}} = 50$ trials por estímulo para estimar los momentos de las respuestas, introduciendo variabilidad en las estimaciones del gradiente pero permitiendo un cálculo computacionalmente más eficiente. Se realizan 250 iteraciones del optimizador \acrshort{ADAM}. Durante esta fase, el inicio de la ventana de promediado $T_{\min}$ se ``recuece'' (\textit{annealing}) sistemáticamente desde $T_{\min} = 0$ ms hasta $T_{\max} - 50$ ms, incentivando dinámicas de muestreo rápidas desde el inicio del estímulo.
 
-
 \textbf{Fase 2 (determinística):} Se continúa la optimización usando el optimizador \acrshort{L-BFGS-B} con el método de \acrfull{ADF} para calcular determinísticamente los momentos de la distribución de respuestas. Este método asume que la distribución conjunta espacio-temporal de potenciales de membrana es gaussiana, permitiendo obtener los momentos en forma cerrada.
 
 La función de costo es no convexa, por lo que \citeauthor{echeveste2020cortical} verificaron la robustez de los resultados realizando 10 optimizaciones adicionales desde condiciones iniciales aleatorias, encontrando que todas las soluciones con costos comparables exhibían cualitativamente las mismas propiedades dinámicas.
@@ -397,58 +388,13 @@ El análisis teórico muestra que, para un estimador que promedia muestras en un
 
 Notablemente, \citeauthor{echeveste2020cortical} validaron esta predicción analizando datos experimentales publicados de V1 en mono despierto, encontrando una correlación positiva entre la magnitud del sobrepico transitorio y el cambio en la tasa de disparo estacionaria, consistente con las predicciones del modelo.
 
-
 \subsection{Limitaciones y extensiones}
 \label{subsec:echeveste_limitaciones}
 
 La principal limitación del modelo de Echeveste para los propósitos de este trabajo es su restricción a \textbf{procesamiento unimodal}. El modelo fue diseñado para representar inferencia sobre características visuales de un único parche de imagen, sin considerar la integración de información de múltiples modalidades sensoriales ni el problema de la inferencia causal.
 
-
 Otras limitaciones incluyen la arquitectura simplificada de hipercolumna (topología de anillo) que limita la generalización a estímulos más complejos y la ausencia de mecanismos de plasticidad sináptica (en simulación) o aprendizaje continuo. Es importante notar que, si bien la red exhibe una rica dinámica temporal gracias a sus conexiones recurrentes (donde la actividad presente depende de estados anteriores), esto no implica plasticidad en el sentido biológico de reconfiguración sináptica. En el modelo, los pesos sinápticos se determinan mediante un algoritmo de optimización externo (como ADAM o L-BFGS-B) antes de la ejecución ; una vez que la red comienza a realizar inferencia, estos pesos permanecen fijos y no se adaptan a nuevos estímulos o cambios en el entorno. Finalmente, la aproximación del contraste con su valor verdadero evita abordar el problema de la inferencia jerárquica completa.
 
-
 Sin embargo, el marco teórico y las técnicas de optimización desarrolladas son, en principio, generalizables a arquitecturas más complejas. La metodología de entrenar redes con restricciones biológicas para que sus distribuciones de respuesta coincidan con posteriors objetivo podría extenderse a modelos generativos multimodales que incluyan estructura causal. Esta extensión constituye la dirección que motivó inicialmente el presente trabajo.
-
-% =============================================================================
-% SECCIÓN 3: OBJETIVO DEL PRESENTE TRABAJO
-% =============================================================================
-
-% \section{Objetivo del presente trabajo}
-% \label{sec:objetivo}
-
-% La revisión presentada en las secciones anteriores revela una brecha significativa en el modelado computacional de la integración multisensorial. Por un lado, modelos como el de \citet{cuppini2017biologically} capturan la arquitectura funcional de la integración audiovisual y la inferencia causal, pero emplean dinámicas de tasa deterministas que no reflejan las propiedades estocásticas y oscilatorias de la actividad cortical real. Por otro lado, el modelo de \citet{echeveste2020cortical} demuestra que redes neuronales con restricciones biológicas pueden implementar inferencia probabilística mediante muestreo, exhibiendo dinámicas corticales realistas, pero está limitado al procesamiento de una única modalidad sensorial. Además de estas diferencias conceptuales, existe una barrera práctica donde cada modelo ha sido implementado de manera independiente, en distintos lenguajes de programación y con estructuras de código incompatibles, dificultando su comparación sistemática y cualquier intento de integración.
-
-% En nuestros inicios, nuestra principal pregunta fue si era posible combinar lo mejor de ambos trabajos: construir un modelo de integración multisensorial que resuelva el problema de inferencia causal audiovisual mientras exhibe las dinámicas corticales biológicamente plausibles que caracterizan al modelo de Echeveste. Un modelo así tendría implicaciones profundas tanto teóricas, demostrando que los principios de muestreo neuronal pueden extenderse al dominio multisensorial, como prácticas, permitiendo conectar predicciones del modelo con observaciones electrofisiológicas reales.
-
-% Sin embargo, realizar esta idea no es una tarea que pueda abordarse en un único trabajo. La fusión de estos modelos requiere resolver múltiples desafíos técnicos y conceptuales que deben abordarse de manera sistemática. El presente trabajo representa el primer paso en esta dirección, al sentar las bases computacionales necesarias para que dicha fusión sea posible en investigaciones futuras.
-
-% \subsection{La visión y el camino hacia ella}
-% \label{subsec:vision}
-
-% La visión a largo plazo que motiva este trabajo es el desarrollo de modelos de integración multisensorial que combinen la arquitectura multimodal del modelo de Cuppini con las dinámicas corticales realistas del modelo de Echeveste. Un modelo así permitiría estudiar cómo fenómenos como el efecto ventrílocuo emergen de circuitos neuronales que no solo integran información de múltiples modalidades, sino que lo hacen mediante mecanismos de muestreo estocástico biológicamente plausibles.
-
-% Para alcanzar esta visión, es necesario primero disponer de una implementación del modelo de Echeveste dentro de un framework que facilite su extensión y comparación con otros modelos. El framework Scikit-NeuroMSI, descrito en el Capítulo~\ref{chapter:scikit_neuromsi}, representa la plataforma ideal para este propósito: ya incluye implementaciones del modelo de Cuppini y de modelos bayesianos de inferencia causal, proporcionando la infraestructura necesaria para comparaciones sistemáticas.
-
-% \subsection{Desafíos y extensiones necesarias}
-% \label{subsec:desafios}
-
-% El modelo de Echeveste introduce al framework un tipo de modelo cualitativamente diferente a los existentes en varios aspectos fundamentales.
-
-% En primer lugar, existe una diferencia en el \textbf{dominio de representación}. Los modelos actualmente implementados en Scikit-NeuroMSI modelan la localización espacial de estímulos, con neuronas organizadas topográficamente según posiciones en el espacio externo (vía dorsal). En contraste, el modelo de Echeveste representa características visuales como la orientación de bordes, con neuronas organizadas según sus orientaciones preferidas en una hipercolumna de V1 (vía ventral). Esta diferencia implica que la integración de ambos enfoques requerirá considerar cómo diferentes tipos de representaciones corticales pueden interactuar en el contexto de la inferencia multisensorial.
-
-% En segundo lugar, el modelo de Echeveste es inherentemente \textbf{estocástico} de una manera que resulta central para su función: sus propiedades más relevantes emergen precisamente de la distribución de actividad neuronal y su evolución temporal. Los transitorios, las oscilaciones gamma, y la variabilidad trial-a-trial no son fenómenos secundarios sino características centrales que el modelo utiliza activamente para implementar inferencia probabilística mediante muestreo.
-
-% Esta diferencia tiene implicaciones directas para la implementación. Será necesario desarrollar herramientas para visualizar y analizar la evolución temporal de los estados neuronales, calcular autocorrelaciones temporales, analizar espectros de potencia para identificar oscilaciones, y comparar la distribución de respuestas con los momentos objetivo derivados del modelo generativo.
-
-% Otra extensión necesaria es la implementación del \textbf{modelo generativo GSM} que define el problema de inferencia que la red debe resolver. Este modelo generativo no existe actualmente en el framework y su implementación es condición necesaria para poder entrenar la red y validar que sus respuestas aproximan correctamente la inferencia bayesiana óptima.
-
-% \subsection{Contribución del presente trabajo}
-% \label{subsec:contribucion}
-
-% El presente trabajo aborda estos desafíos mediante la implementación completa del modelo de Echeveste dentro del framework Scikit-NeuroMSI. Esta implementación incluye la arquitectura de red con sus poblaciones excitatorias e inhibitorias, la parametrización de conectividad en anillo, el modelo generativo GSM con el cálculo de momentos objetivo, y el procedimiento de entrenamiento para muestreo.
-
-% Junto con el modelo, el trabajo desarrolla bases para las herramientas de análisis necesarias para estudiar modelos con dinámicas temporales relevantes. Estas herramientas permitirán visualizar la evolución de los potenciales de membrana, calcular espectros de potencia para identificar oscilaciones, y comparar estadísticas de las respuestas con los valores objetivo.
-
-% La validación de la implementación verificará que el modelo reproduce las propiedades reportadas en el trabajo original: convergencia de los momentos de respuesta hacia los momentos objetivo, variabilidad modulada por contraste, y presencia de las dinámicas temporales características.
 
 % Es importante delimitar claramente lo que este trabajo \textbf{no aborda}. La fusión del modelo de Echeveste con el modelo de Cuppini, la implementación de inferencia causal multisensorial, y la validación contra datos experimentales de integración audiovisual quedan como direcciones de investigación futura. El presente trabajo se enfoca exclusivamente en sentar las bases técnicas que harán posibles estas extensiones, reconociendo que una implementación correcta y validada del modelo unimodal de Echeveste es condición necesaria para cualquier desarrollo posterior hacia el procesamiento multisensorial con dinámicas corticales realistas.

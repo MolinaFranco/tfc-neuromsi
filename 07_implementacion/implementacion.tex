@@ -47,7 +47,6 @@ El modelo por defecto se inicializa con parámetros nulos que deben ser optimiza
 
 Otra opción es pasar el parámetro \texttt{pretrained=True} durante la construcción, esto cargará automáticamente los parámetros pre-optimizados por los autores originales, quedando listo para ejecutar simulaciones inmediatamente. Esta opción resulta conveniente para los usuarios que desean explorar el comportamiento del modelo sin invertir tiempo en el proceso de optimización.
 
-
 % =============================================================================
 % SECCIÓN 2: EL MODELO GENERATIVO GSM
 % =============================================================================
@@ -333,7 +332,6 @@ prior_cov = gsm_loader.load_prior_covariance()   # Shape: (50, 50)
 
 El método \texttt{load\_parameters()} de la clase \texttt{Echeveste2020} utiliza internamente el \texttt{Echeveste\allowbreak DataLoader} para configurar completamente el modelo con los parámetros pre-optimizados, dejándolo listo para ejecutar simulaciones inmediatamente. Esta funcionalidad resulta esencial para facilitar el uso del modelo sin necesidad de ejecutar el costoso proceso de entrenamiento.
 
-
 \subsection{Nuevos tipos de modelos}
 \label{subsec:impl_modulo_generative}
 
@@ -365,39 +363,6 @@ El flujo de trabajo para reproducir las figuras del artículo original se estruc
 La primera etapa consiste en la \textbf{generación de datos}: scripts ubicados en el directorio \texttt{figures/data/} ejecutan simulaciones con configuraciones específicas y almacenan los resultados en formato comprimido. Esta separación permite ejecutar simulaciones computacionalmente costosas una única vez y reutilizar los datos para múltiples análisis.
 
 La segunda etapa consiste en la \textbf{generación de figuras}: scripts en directorios \texttt{figures/FigX/} (donde X corresponde al número de figura del artículo original) cargan los datos pre-generados y producen visualizaciones comparativas entre el observador ideal (\acrshort{GSM}) y la red neuronal (\acrshort{SSN}).
-
-% La Figura~\ref{fig:impl_workflow} ilustra este flujo de trabajo:
-
-% \begin{figure}[H]
-%     \centering
-%     \begin{tikzpicture}[
-%         node distance=1.5cm,
-%         box/.style={rectangle, draw, minimum width=3.5cm, minimum height=1cm, align=center, font=\small},
-%         arrow/.style={->, thick, >=stealth}
-%     ]
-
-%     % Etapa 1: Generación de datos
-%     \node[box, fill=blue!15] (sim) {Scripts de\\simulación};
-%     \node[box, fill=green!15, right=2cm of sim] (data) {Banco de datos\\(\texttt{.npz}, \texttt{.json})};
-
-%     % Etapa 2: Generación de figuras
-%     \node[box, fill=orange!15, right=2cm of data] (viz) {Scripts de\\visualización};
-%     \node[box, fill=red!15, right=2cm of viz] (figs) {Figuras\\comparativas};
-
-%     % Flechas
-%     \draw[arrow] (sim) -- node[above, font=\footnotesize] {ejecutar} (data);
-%     \draw[arrow] (data) -- node[above, font=\footnotesize] {cargar} (viz);
-%     \draw[arrow] (viz) -- node[above, font=\footnotesize] {generar} (figs);
-
-%     % Etiquetas de directorio
-%     \node[below=0.3cm of sim, font=\footnotesize\ttfamily] {figures/data/};
-%     \node[below=0.3cm of data, font=\footnotesize\ttfamily] {simulations/};
-%     \node[below=0.3cm of viz, font=\footnotesize\ttfamily] {figures/FigX/};
-
-%     \end{tikzpicture}
-%     \caption{Flujo de trabajo para generación de datos y figuras. La separación en dos etapas permite reutilizar simulaciones costosas para múltiples análisis.}
-%     \label{fig:impl_workflow}
-% \end{figure}
 
 El script principal \texttt{generate\_simulations.py} ejecuta simulaciones para los cinco niveles de contraste del conjunto de entrenamiento original ($z \in \{0,\allowbreak 0.125,\allowbreak 0.25,\allowbreak 0.5,\allowbreak 1.0\}$) con una configuración unificada. Para cada nivel de contraste, el script instancia el modelo, carga los parámetros pre-entrenados, ejecuta la simulación, calcula estadísticas del estado estacionario, y almacena las trayectorias temporales y estadísticas en formato NumPy comprimido (\texttt{.npz}) junto con metadatos en formato JSON para trazabilidad.
 
@@ -461,7 +426,6 @@ A modo de referencia, la Tabla~\ref{tab:parametros_completos} consolida todos lo
 
 }
 \end{table}
-
 
 % =============================================================================
 % SECCIÓN 10: RESUMEN DEL CAPÍTULO

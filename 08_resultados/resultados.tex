@@ -37,40 +37,6 @@ Las pruebas verifican que los 8 parámetros de conectividad ($a_{EE}$, $a_{EI}$,
 
 Las pruebas end-to-end verifican que el método \texttt{train()} complete ambas etapas sin errores y que la red entrenada pueda ejecutar simulaciones estables sin divergir numéricamente.
 
-% \subsection{Pruebas de componentes de integración}
-% \label{subsec:res_tests_integration}
-
-% Finalmente implementamos comparaciones directas entre nuestra implementación y los datos generados por el código original de \citeauthor{echeveste2020cortical}, disponible en su repositorio de referencia. Estas pruebas constituyen la validación más rigurosa, ya que verifican la equivalencia numérica punto por punto.
-
-% Las comparaciones incluyen:
-
-% \textbf{Filtros de Gabor:} Se verifica que la matriz $\mathbf{A}$ generada por nuestra implementación coincida con los filtros almacenados en el repositorio original. El criterio de aceptación requiere una correlación de Pearson superior a 0.95 entre cada par de filtros correspondientes.
-
-% \textbf{Matriz de covarianza \textit{a priori}:} La matriz $\mathbf{C}$ del modelo generativo \acrshort{GSM} debe reproducir la estructura circular de correlaciones con correlación superior a 0.7 respecto al archivo de referencia.
-
-% \textbf{Transformación de entrada $\mathbf{h}$:} Para estímulos de prueba idénticos, la entrada feedforward calculada según la Ecuación~\ref{eq:feedforward_input} debe coincidir con tolerancia $\text{MSE} < 10^{-10}$.
-
-% \textbf{Pipeline completo:} La secuencia filtros $\rightarrow$ covarianza $\rightarrow$ transformación debe alcanzar correlaciones superiores a 0.99 para filtros y 0.95 para la matriz de covarianza.
-
-% \begin{table}[H]
-% \centering
-% \caption{Resumen de pruebas de integración con código original.}
-% \label{tab:test_summary}
-% \begin{tabular}{lcc}
-% \toprule
-% \textbf{Componente} & \textbf{Métrica} & \textbf{Resultado} \\
-% \midrule
-% Filtros de Gabor & Correlación & $> 0.99$ \\
-% Covarianza \textit{a priori} & Correlación & $> 0.95$ \\
-% Transformación $\mathbf{h}$ & \acrshort{MSE} & $< 10^{-10}$ \\
-% Matriz de conectividad $\mathbf{W}$ & Diferencia máxima & $< 10^{-8}$ \\
-% Parámetros cargados & Tolerancia & $< 10^{-6}$ \\
-% \bottomrule
-% \end{tabular}
-% \end{table}
-
-% Todas estas pruebas se ejecutan automáticamente como parte del proceso de integración continua del proyecto, garantizando que cualquier modificación al código que introduzca regresiones sea detectada inmediatamente.
-
 \subsection{Validación función por función contra código original}
 \label{subsec:res_function_validation}
 
@@ -161,7 +127,6 @@ La Figura~\ref{fig:connectivity_results} presenta los resultados de la optimizac
     \label{fig:connectivity_results}
 \end{figure}
 
-
 Los resultados muestran que las amplitudes de conectividad convergen consistentemente hacia valores cercanos a los de referencia, como se detalla en la Tabla~\ref{tab:connectivity_amplitudes}. Las amplitudes exhiben baja variabilidad entre corridas (coeficientes de variación $< 0,1$), indicando que el paisaje de optimización tiene una estructura bien definida para estos parámetros.
 
 \begin{table}[H]
@@ -172,14 +137,6 @@ Los resultados muestran que las amplitudes de conectividad convergen consistente
 \toprule
 \textbf{Parámetro} & \textbf{Referencia} & \textbf{Obtenido} & \textbf{CV} & \textbf{Tolerancia} \\
 \midrule
-% $a_{EE}$ & 0.331 & $0.34 \pm 0.02$ & 0.059 & 0.98 \\
-% $a_{EI}$ & 0.081 & $0.08 \pm 0.01$ & 0.125 & 0.97 \\
-% $a_{IE}$ & 0.363 & $0.37 \pm 0.02$ & 0.054 & 0.96 \\
-% $a_{II}$ & 0.074 & $0.08 \pm 0.02$ & 0.250 & 0.89 \\
-% $d_{EE}$ & 0.803 & $0.81 \pm 0.05$ & 0.062 & 0.91 \\
-% $d_{EI}$ & 0.569 & $0.57 \pm 0.04$ & 0.070 & 0.94 \\
-% $d_{IE}$ & 0.860 & $0.87 \pm 0.05$ & 0.057 & 0.88 \\
-% $d_{II}$ & 0.630 & $0.67 \pm 0.06$ & 0.090 & 0.82 \\
 $a_{EE}$ & 0.331 & $0.342 \pm 0.021$ & 0.061 & 0.982 \\
 $a_{EI}$ & 0.081 & $0.084 \pm 0.011$ & 0.131 & 0.974 \\
 $a_{IE}$ & 0.363 & $0.371 \pm 0.022$ & 0.059 & 0.963 \\
@@ -191,11 +148,6 @@ $d_{II}$ & 0.630 & $0.671 \pm 0.062$ & 0.092 & 0.826 \\
 \bottomrule
 \end{tabular}
 \end{table}
-
-
-% Las amplitudes exhiben baja variabilidad entre corridas, con coeficientes de variación generalmente menores al 15\%. El parámetro $a_{II}$ muestra mayor dispersión relativa, aunque esto se debe en parte a su pequeña magnitud absoluta. Notablemente, más del 89\% de las corridas convergen dentro de la tolerancia $\pm 10\%$ para todos los parámetros de amplitud.
-
-% Los anchos espaciales muestran mayor variabilidad que las amplitudes, particularmente $d_{II}$ donde aproximadamente el 18\% de las corridas convergen fuera de la banda de tolerancia. Esta observación es consistente con el hecho de que el paisaje de optimización puede ser más plano en la dirección de los anchos, permitiendo múltiples soluciones con costos similares. Sin embargo, la mayoría de las corridas (82-94\%) aún convergen dentro de la tolerancia especificada, confirmando la robustez general del procedimiento de entrenamiento.
 
 Un análisis complementario revela que las corridas que se desvían de la tolerancia en un parámetro tienden a compensar con desviaciones en otros parámetros, manteniendo el costo final comparable. Esto sugiere la existencia de una variedad de soluciones aproximadamente equivalentes en el espacio de parámetros, fenómeno común en problemas de optimización con funciones de costo no convexas.
 
@@ -236,20 +188,6 @@ $\gamma_h$ (exponente) & 2.0343 & $2.01 \pm 0.03$ & $< 2\%$ \\
 \end{table}
 
 El exponente $\gamma_h \approx 2$ resulta particularmente notable: su proximidad al exponente supralineal $n = 2$ de la función de transferencia neuronal sugiere una consistencia en el procesamiento no lineal a través de las etapas del modelo. Esta coincidencia no es impuesta \textit{a priori} sino que emerge de la optimización.
-
-% \subsection{Curvas de convergencia}
-% \label{subsec:res_training_convergence}
-
-% La Figura~\ref{fig:convergence_curves} muestra la evolución de la función de costo durante el entrenamiento. Durante Stage 1, el costo decrece rápidamente durante las primeras 50 iteraciones y luego se estabiliza gradualmente. La alta varianza inicial refleja la naturaleza estocástica de la estimación de momentos. Stage 2 muestra una convergencia más suave gracias al uso de gradientes determinísticos mediante \acrshort{ADF}.
-
-% \begin{figure}[H]
-%     \centering
-%     \includegraphics[width=0.75\textwidth]{08_resultados/figures/convergence_curves.png}
-%     \caption{Curvas de convergencia del entrenamiento. Izquierda: Stage 1 (ADAM, escala logarítmica). Derecha: Stage 2 (L-BFGS-B). Las diferentes curvas corresponden a corridas independientes.}
-%     \label{fig:convergence_curves}
-% \end{figure}
-
-% Los costos finales alcanzados son comparables a los reportados en el artículo original (orden de magnitud $10^{-3}$ a $10^{-4}$), indicando que nuestra implementación logra un nivel de optimización equivalente al código de referencia.
 
 % =============================================================================
 % SECCIÓN 3: REPRODUCCIÓN DE FIGURAS DEL PAPER
@@ -345,15 +283,6 @@ Varias observaciones emergen de esta comparación. Las curvas de media poblacion
 trial-to-trial de las respuestas neuronales disminuye abruptamente tras la presentación de 
 un estímulo, comparada con la alta variabilidad durante actividad espontánea.} y observado experimentalmente en corteza visual de primates \citep{echeveste2020cortical}. En el modelo, este comportamiento emerge naturalmente de las propiedades del \acrshort{GSM}: mayor contraste implica mayor relación señal-ruido, lo que reduce la incertidumbre posterior y, consecuentemente, la variabilidad de las muestras neuronales.
 
-% La Figura~\ref{fig:fig2b} proporciona una visualización complementaria mediante elipses de covarianza bidimensionales para dos neuronas seleccionadas (con orientaciones preferidas de aproximadamente $42°$ y $16°$). La superposición entre las elipses del observador ideal y la red neuronal confirma que la red no solo reproduce los momentos marginales correctos, sino también la estructura de correlaciones entre neuronas.
-
-% \begin{figure}[!ht]
-%     \centering
-%     \includegraphics[width=0.50\textwidth]{08_resultados/figures/Fig2b_covariance_ellipses.png}
-%     \caption{Elipses de covarianza para pares de neuronas representativas. Cada panel corresponde a un nivel de contraste diferente. Las elipses verdes punteadas representan la posterior del \acrshort{GSM}; las elipses rojas representan la distribución de respuestas de la red.}
-%     \label{fig:fig2b}
-% \end{figure}
-
 \subsection{Estructura de correlaciones poblacionales}
 \label{subsec:res_fig2d}
 
@@ -365,24 +294,6 @@ El análisis más completo de las propiedades de muestreo requiere examinar la m
     \caption{Matrices de correlación de Pearson entre potenciales de membrana excitatorios. Columna izquierda: observador ideal (\acrshort{GSM}). Columna derecha: red neuronal (\acrshort{SSN}). Cada columna corresponde a un nivel de contraste diferente.}
     \label{fig:fig2d}
 \end{figure}
-
-
-% \newgeometry{margin=0cm}
-% \begin{figure}[!p]
-%     \centering
-%     % Imagen a página completa
-%     \includegraphics[height=0.8\paperheight,keepaspectratio]{08_resultados/figures/Fig2d_correlation_matrices.png}
-
-%     % Caption limitada al ancho del texto
-%     \vspace{2em}
-%     \parbox{0.7\textwidth}{
-%         \caption{Matrices de correlación de Pearson entre potenciales de membrana excitatorios. Columna izquierda: observador ideal (\acrshort{GSM}). Columna derecha: red neuronal (\acrshort{SSN}). Cada columna corresponde a un nivel de contraste diferente.}
-%         \label{fig:fig2d}
-%     }
-% \end{figure}
-% \restoregeometry
-
-
 
 La diagonal principal muestra máxima correlación, y a medida que nos alejamos de la diagonal, la correlación decae gradualmente, reflejando que neuronas con orientaciones preferidas más distantes están menos correlacionadas. La estructura de correlaciones se modifica con el contraste de manera consistente entre el observador ideal y la red: para contraste cero, las correlaciones están determinadas principalmente por el prior del \acrshort{GSM}, mientras que con el aumento del contraste, la estructura refleja progresivamente más la información del estímulo. Calculando la correlación de Pearson elemento por elemento entre ambas matrices, se obtienen valores superiores a 0.95 para todos los niveles de contraste.
 
@@ -403,7 +314,6 @@ adimensional de dispersión relativa, análoga al coeficiente de variación pero
 procesos de conteo.}, definido como $F = \text{Var}[r] / \mathbb{E}[r]$. Para un proceso de Poisson, $F = 1$; valores menores indican variabilidad sub-poissoniana, característica de respuestas corticales bajo estimulación.
 
 El análisis cuantitativo del factor de Fano a partir de los datos de simulación muestra una reducción sistemática con el aumento del contraste: para contraste $z = 0$, el factor de Fano promedio se encuentra en el rango $1.0 - 1.2$, mientras que para $z = 1$ decrece hacia valores en el rango $0.6 - 0.8$. Esta reducción es particularmente pronunciada para las neuronas cuya orientación preferida coincide con la del estímulo, consistente con observaciones experimentales en \acrshort{V1} de primates \citep{echeveste2020cortical}.
-
 
 \subsection{Análisis de oscilaciones gamma}
   \label{subsec:res_gamma}
@@ -436,7 +346,6 @@ El análisis cuantitativo del factor de Fano a partir de los datos de simulació
   sobre neuronas excitatorias sigue la convención del trabajo original y refleja que las neuronas 
   piramidales (excitatorias) contribuyen predominantemente al \acrshort{LFP} debido a su geometría 
   dendrítica extendida.
-
 
   \subsubsection{Análisis espectral}
  Para caracterizar el contenido oscilatorio del \acrshort{LFP}, se calculó su espectro de potencia, 
@@ -486,24 +395,6 @@ para cada condición de contraste.
   lo que permite a la red explorar el espacio de estados más rápidamente, manifestándose como 
   oscilaciones de mayor frecuencia. Esta interpretación conecta las propiedades espectrales 
   observadas con la función de inferencia probabilística que la red implementa.
-
-% \subsection{Transitorios al inicio del estímulo}
-% \label{subsec:res_transients}
-
-% Los overshoots transitorios al inicio del estímulo representan otra propiedad emergente del modelo que cumple un rol funcional en la reducción del tiempo de burn-in para la inferencia. Simulaciones preliminares utilizando el modo \texttt{three\_phase} muestran indicios de respuestas transitorias consistentes con las predicciones teóricas.
-
-% \subsection{Validaciones pendientes}
-% \label{subsec:res_pending}
-
-% Para completar la validación según los estándares establecidos por \citet{echeveste2020cortical}, se identifican las siguientes direcciones de trabajo futuro:
-
-% \textbf{Pruebas de generalización} (Figura 3 del artículo original): verificación de que la red interpola correctamente a niveles de contraste no entrenados, y evaluación del rendimiento con un conjunto de 500 estímulos nuevos generados por el \acrshort{GSM} que incluyen múltiples orientaciones dominantes.
-
-% \textbf{Análisis espectral completo}: verificación de oscilaciones gamma mediante análisis de potencia espectral del potencial de campo local (\acrshort{LFP}), incluyendo la dependencia de la frecuencia pico con el contraste.
-
-% \textbf{Redes de control}: el artículo original entrena múltiples redes que difieren en un único aspecto (sin modulación de covarianza, sin principio de Dale, sin penalización de slowness, con factores de Fano constantes), demostrando la necesidad de cada componente. La implementación de estas comparaciones constituye una validación importante.
-
-% \textbf{Comparación con datos experimentales} (Figura 7): validación de que las propiedades de la red optimizada son consistentes con registros electrofisiológicos de \acrshort{V1} en primates.
 
 % =============================================================================
 % SECCIÓN 5: RESUMEN
