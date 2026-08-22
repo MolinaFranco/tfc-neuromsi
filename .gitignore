@@ -25,6 +25,9 @@
 *.run.xml
 *.bcf
 
+# PDF compilado de la tesis (salida de build)
+main.pdf
+
 # minted / shell-escape
 _minted*/
 *.pyg
