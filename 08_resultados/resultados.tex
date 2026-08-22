@@ -215,7 +215,7 @@ $N_E$, $N_I$ & Neuronas E e I & 50, 50 \\
 $T_{\text{sim}}$ & Tiempo de simulación & 1000 ms \\
 $T_{\text{burn-in}}$ & Período de estabilización & 200 ms \\
 $dt$ & Paso de integración & 0.2 ms \\
-Orientación estímulo & Centro de la gaussiana & $0°$ \\
+Orientación estímulo & Centro de la gaussiana & $0^\circ$ \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -228,23 +228,23 @@ La Figura~\ref{fig:fig2a} basada en el panel (a) de la Figura 2 del artículo or
 \begin{figure}[!ht]
     \centering
     \includegraphics[width=0.95\textwidth]{08_resultados/figures/fig2a_population_activity_open.png}
-    \caption{Actividad poblacional de potenciales de membrana excitatorios. Primer panel: contraste $z = 0$ (actividad espontánea). Panel central: contraste $z = 1$ (estimulación máxima). Ultimo panel: entrada feedforward $\mathbf{h}$ correspondiente al contraste máximo. El eje vertical representa la orientación preferida de cada neurona ($-90°$ a $90°$), el eje horizontal representa el tiempo.}
+    \caption{Actividad poblacional de potenciales de membrana excitatorios. Primer panel: contraste $z = 0$ (actividad espontánea). Panel central: contraste $z = 1$ (estimulación máxima). Ultimo panel: entrada feedforward $\mathbf{h}$ correspondiente al contraste máximo. El eje vertical representa la orientación preferida de cada neurona ($-90^\circ$ a $90^\circ$), el eje horizontal representa el tiempo.}
     \label{fig:fig2a}
 \end{figure}
 
-Los resultados muestran las propiedades esperadas del modelo. En ausencia de estímulo (contraste cero), la actividad fluctúa alrededor de valores bajos con distribución espacial aproximadamente uniforme, reflejando el ruido de proceso $\boldsymbol{\eta}(t)$ filtrado por la dinámica recurrente. Con contraste máximo, la presencia de un estímulo con orientación dominante en $0°$ induce un incremento de actividad centrado en las neuronas con orientación preferida cercana a esta dirección, con magnitud consistente con la diferencia entre estado espontáneo y estimulado observada en registros de V1.
+Los resultados muestran las propiedades esperadas del modelo. En ausencia de estímulo (contraste cero), la actividad fluctúa alrededor de valores bajos con distribución espacial aproximadamente uniforme, reflejando el ruido de proceso $\boldsymbol{\eta}(t)$ filtrado por la dinámica recurrente. Con contraste máximo, la presencia de un estímulo con orientación dominante en $0^\circ$ induce un incremento de actividad centrado en las neuronas con orientación preferida cercana a esta dirección, con magnitud consistente con la diferencia entre estado espontáneo y estimulado observada en registros de V1.
 
 \subsection{Patrones de disparo poblacional}
 \label{subsec:res_raster}
 
 Una representación complementaria de la actividad poblacional se obtiene mediante raster plots, graficos donde cada marca vertical representa un potencial de acción (spike). 
 
-La Figura~\ref{fig:raster_comparison} presenta la comparación entre actividad espontánea y evocada por estímulo. En ausencia de estimulación, los disparos se distribuyen de manera dispersa a través de todas las orientaciones preferidas, reflejando la variabilidad intrínseca de la red. Durante la presentación de un estímulo con orientación $0°$ y alto contraste $z=1.0$, la actividad se concentra marcadamente alrededor de las neuronas cuya orientación preferida coincide con la del estímulo, mientras que las neuronas con orientaciones ortogonales mantienen niveles de actividad reducidos. Nótese que las neuronas inhibitorias (rojo) exhiben tasas de disparo superiores a las excitatorias (azul) en ambas condiciones, comportamiento consistente con la dinámica de redes supralineales estabilizadas donde la inhibición debe ser suficientemente fuerte para prevenir la excitación descontrolada inducida por el estimulo.
+La Figura~\ref{fig:raster_comparison} presenta la comparación entre actividad espontánea y evocada por estímulo. En ausencia de estimulación, los disparos se distribuyen de manera dispersa a través de todas las orientaciones preferidas, reflejando la variabilidad intrínseca de la red. Durante la presentación de un estímulo con orientación $0^\circ$ y alto contraste $z=1.0$, la actividad se concentra marcadamente alrededor de las neuronas cuya orientación preferida coincide con la del estímulo, mientras que las neuronas con orientaciones ortogonales mantienen niveles de actividad reducidos. Nótese que las neuronas inhibitorias (rojo) exhiben tasas de disparo superiores a las excitatorias (azul) en ambas condiciones, comportamiento consistente con la dinámica de redes supralineales estabilizadas donde la inhibición debe ser suficientemente fuerte para prevenir la excitación descontrolada inducida por el estimulo.
 
 \begin{figure}[!ht]
     \centering
     \includegraphics[width=0.95\textwidth]{08_resultados/figures/fig_raster_comparison.png}
-    \caption{Raster plot comparando actividad espontánea y evocada. Cada marca vertical representa un spike. Las neuronas excitatorias representadas en azul y las inhibitorias en rojo. Vemos en el panel superior la actividad espontánea sin estímulo, mostrando disparos dispersos distribuidos uniformemente. Y en el panel inferior, la actividad durante presentación de estímulo a $0°$ (línea punteada verde) de alto contraste $z=1.0$, con disparos concentrados alrededor de la orientación del estímulo.}
+    \caption{Raster plot comparando actividad espontánea y evocada. Cada marca vertical representa un spike. Las neuronas excitatorias representadas en azul y las inhibitorias en rojo. Vemos en el panel superior la actividad espontánea sin estímulo, mostrando disparos dispersos distribuidos uniformemente. Y en el panel inferior, la actividad durante presentación de estímulo a $0^\circ$ (línea punteada verde) de alto contraste $z=1.0$, con disparos concentrados alrededor de la orientación del estímulo.}
     \label{fig:raster_comparison}
 \end{figure}
 
@@ -253,7 +253,7 @@ La Figura~\ref{fig:raster_three_phases} ilustra la dinámica temporal completa m
 \begin{figure}[!ht]
     \centering
     \includegraphics[width=0.95\textwidth]{08_resultados/figures/fig_raster_three_phases.png}
-    \caption{Raster plot del protocolo de tres fases. Pre-estímulo (0-250 ms): actividad espontánea basal. Estímulo (250-750 ms, región sombreada): presentación de estímulo a $0°$, generando actividad concentrada alrededor de la orientación estimulada. Post-estímulo (750-1000 ms): persistencia transitoria de la respuesta tras la remoción del estímulo, evidenciando propiedades de memoria a corto plazo de la red.}
+    \caption{Raster plot del protocolo de tres fases. Pre-estímulo (0-250 ms): actividad espontánea basal. Estímulo (250-750 ms, región sombreada): presentación de estímulo a $0^\circ$, generando actividad concentrada alrededor de la orientación estimulada. Post-estímulo (750-1000 ms): persistencia transitoria de la respuesta tras la remoción del estímulo, evidenciando propiedades de memoria a corto plazo de la red.}
     \label{fig:raster_three_phases}
 \end{figure}
 

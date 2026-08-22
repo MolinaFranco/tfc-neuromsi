@@ -299,13 +299,13 @@ El conjunto de entrenamiento consiste en solo cinco parches de imagen con el mis
 \label{eq:training_stimuli}
 \end{equation}
 
-con $\alpha = 1, \ldots, 5$ y $z^{(\alpha)} \in \{0, 0.125, 0.25, 0.5, 1.0\}$. El contenido $\bar{\mathbf{y}}$ es una función gaussiana de $27°$ de ancho centrada en $0°$ (una única orientación dominante). Gracias a la parametrización rotacionalmente invariante, entrenar en un estímulo equivale a entrenar en todas sus posibles rotaciones.
+con $\alpha = 1, \ldots, 5$ y $z^{(\alpha)} \in \{0, 0.125, 0.25, 0.5, 1.0\}$. El contenido $\bar{\mathbf{y}}$ es una función gaussiana de $27^\circ$ de ancho centrada en $0^\circ$ (una única orientación dominante). Gracias a la parametrización rotacionalmente invariante, entrenar en un estímulo equivale a entrenar en todas sus posibles rotaciones.
 
 \begin{figure}[!ht]
     \centering
     \includegraphics[width=0.85\textwidth]{05_modelos/figures/training_stimuli_contrast.png}
     \caption{
-        Conjunto de entrenamiento del modelo de Echeveste. Los cinco estímulos comparten el mismo contenido $\bar{\mathbf{y}}$ (gaussiana de 27° centrada en 0°) 
+        Conjunto de entrenamiento del modelo de Echeveste. Los cinco estímulos comparten el mismo contenido $\bar{\mathbf{y}}$ (gaussiana de $27^\circ$ centrada en $0^\circ$) 
         pero difieren en su nivel de contraste $z^{(\alpha)} \in \{0, 0.125, 0.25, 0.5, 1.0\}$.
     }
     \label{fig:training_stimuli}
