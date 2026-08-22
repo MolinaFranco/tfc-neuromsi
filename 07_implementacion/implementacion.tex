@@ -243,8 +243,8 @@ Durante tanto el burn-in como la simulación principal, el ruido de inferencia $
 def _update_noise(self, eta_old, L, dt, tau_n):
     """Update noise via Ornstein-Uhlenbeck process.
     
-    η(t+dt) = η(t)·(1 - dt/τ_η) + √(2·dt/τ_η)·L·ξ
-    where ξ ~ N(0,I) and L is Cholesky factor of Σ_η.
+    eta(t+dt) = eta(t)*(1 - dt/tau_n) + sqrt(2*dt/tau_n)*L*xi
+    where xi ~ N(0,I) and L is the Cholesky factor of Sigma_eta.
     """
     eps_1 = 1.0 - dt / tau_n
     eps_2 = np.sqrt(2.0 * dt / tau_n)
@@ -386,7 +386,7 @@ A modo de referencia, la Tabla~\ref{tab:parametros_completos} consolida todos lo
 \toprule
 \textbf{Categoría} & \textbf{Parámetro} & \textbf{Símbolo} & \textbf{Valor} \\
 \midrule
-\multirow{\textbf{Red neuronal (fijos)}} 
+\textbf{Red neuronal (fijos)} 
     & Neuronas excitatorias & $N_E$ & 50 \\
     & Neuronas inhibitorias & $N_I$ & 50 \\
     & Constante de tiempo E & $\tau_E$ & 20 ms \\
@@ -395,13 +395,13 @@ A modo de referencia, la Tabla~\ref{tab:parametros_completos} consolida todos lo
     & Exponente supralineal & $n$ & 2.0 \\
     & Factor de escala & $k$ & 0.3 \\
 \midrule
-\multirow{\textbf{Modelo GSM (fijos)}} 
+\textbf{Modelo GSM (fijos)} 
     & Número de píxeles & $N_x$ & 256 \\
     & Número de orientaciones & $N_y$ & 50 \\
     & Desv. estándar ruido píxel & $\sigma_x$ & 10.0 \\
     & Factor escala $\mathbf{W}^{ff}$ & --- & $1/15$ \\
 \midrule
-\multirow{\textbf{Conectividad (optimizados)}} 
+\textbf{Conectividad (optimizados)} 
     & Amplitud E$\rightarrow$E & $a_{EE}$ & 1.46 \\
     & Amplitud E$\rightarrow$I & $a_{EI}$ & 1.29 \\
     & Amplitud I$\rightarrow$E & $a_{IE}$ & $-$1.96 \\
@@ -411,13 +411,13 @@ A modo de referencia, la Tabla~\ref{tab:parametros_completos} consolida todos lo
     & Ancho I$\rightarrow$E & $d_{IE}$ & 0.40 \\
     & Ancho I$\rightarrow$I & $d_{II}$ & 0.40 \\
 \midrule
-\multirow{\textbf{Covarianza ruido (optimizados)}} 
+\textbf{Covarianza ruido (optimizados)} 
     & Desv. estándar ruido E & $\sigma_E$ & 2.80 \\
     & Desv. estándar ruido I & $\sigma_I$ & 1.60 \\
     & Correlación E-I & $\rho$ & 0.75 \\
     & Ancho correlación & $d_\sigma$ & 0.45 \\
 \midrule
-\multirow{\textbf{Entrada (optimizados)}} 
+\textbf{Entrada (optimizados)} 
     & Escala entrada & $\alpha_h$ & 1.96 \\
     & Línea base entrada & $\beta_h$ & 0.10 \\
     & Exponente entrada & $\gamma_h$ & 2.03 \\
