@@ -234,7 +234,7 @@ self._integrator = bp.odeint(f=integrator_model, method='euler', dt=0.2e-3)
 \end{code}
 \vspace{1.5em}
 
-La primera etapa es el período de \textbf{\textit{burn-in}}, durante el cual la red evoluciona sin registrar datos. Este período es necesario porque las condiciones iniciales (potenciales de membrana y ruido) se inicializan de manera arbitraria, y la red requiere tiempo para alcanzar el régimen estacionario estocástico desde el cual las muestras son representativas de la distribución posterior. El valor por defecto de 10,000 ms corresponde al utilizado en el código original, aunque para experimentos de transitorios se recomienda aumentarlo a 20,000 ms.
+La primera etapa es el período de \textbf{\textit{burn-in}}, durante el cual la red evoluciona sin registrar datos. Este período es necesario porque las condiciones iniciales (potenciales de membrana y ruido) se inicializan de manera arbitraria, y la red requiere tiempo para alcanzar el régimen estacionario estocástico desde el cual las muestras son representativas de la distribución posterior. El valor por defecto de 10.000 ms corresponde al utilizado en el código original, aunque para experimentos de transitorios se recomienda aumentarlo a 20,000 ms.
 
 Durante tanto el burn-in como la simulación principal, el ruido de inferencia $\boldsymbol{\eta}$ evoluciona según un proceso que mantiene la estructura de correlaciones espaciales definida por la matriz $\boldsymbol{\Sigma}_\eta$:
 

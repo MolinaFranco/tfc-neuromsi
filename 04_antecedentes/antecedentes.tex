@@ -164,7 +164,7 @@ La orientación preferida de un filtro de Gabor se obtiene rotando el sistema de
     \centering
     \includegraphics[width=0.75\textwidth]{04_antecedentes/figures/gabor-bank.jpg}
     \caption{
-    Banco de filtros de Gabor utilizados para modelar los campos receptivos de las células simples en V1. Cada subfigura representa un filtro con una combinación específica de orientación ($\theta$) y frecuencia espacial ($k$). La envolvente gaussiana se mantiene fija en todo el banco, es decir, $\sigma_x$ y $\sigma_y$ toman el mismo valor en todos los filtros, de modo que las diferencias entre subfiguras se deben únicamente a $\theta$ y $k$.
+    Banco de filtros de Gabor utilizados para modelar los campos receptivos de las células simples en V1. Cada subfigura representa un filtro con una combinación específica de orientación ($\theta$) y frecuencia espacial ($k$). La extensión espacial de cada campo receptivo está dada por $\sigma_x$ y $\sigma_y$ en la Ecuación~\ref{eq:gabor_function}.
     }
     \label{fig:gabor-banks}
 \end{figure}
@@ -521,7 +521,7 @@ En el contexto del presente trabajo, el paradigma relevante es el aprendizaje su
 \subsection{Redes neuronales artificiales}
 \label{subsec:redes_artificiales}
 
-Las \acrfullpl{ANN} son modelos computacionales inspirados en la estructura del cerebro, compuestos por unidades de procesamiento interconectadas organizadas en capas \citep{heaton2018ian}. Aunque difieren significativamente de las redes biológicas en muchos detalles, capturan principios importantes de procesamiento distribuido y aprendizaje mediante ajuste de conexiones.
+Las \acrfull{ANN} son modelos computacionales inspirados en la estructura del cerebro, compuestos por unidades de procesamiento interconectadas organizadas en capas \citep{heaton2018ian}. Aunque difieren significativamente de las redes biológicas en muchos detalles, capturan principios importantes de procesamiento distribuido y aprendizaje mediante ajuste de conexiones.
 
 El \acrfull{MLP} es la arquitectura más básica. Cada capa $l$ computa:
 
@@ -546,7 +546,7 @@ La importancia de este algoritmo para el campo fue reconocida con el Premio Turi
 
 El \textbf{aprendizaje profundo} (\textit{deep learning}) se refiere al entrenamiento de redes neuronales con múltiples capas ocultas. La profundidad permite aprender representaciones jerárquicas donde las capas inferiores extraen características simples y las superiores combinan estas en representaciones más abstractas \citep{heaton2018ian}.
 
-Las \acrfullpl{CNN} son particularmente relevantes para el procesamiento visual. Inspiradas en la organización jerárquica del sistema visual, las CNNs aplican filtros convolucionales que son equivariantes a traslaciones:
+Las \acrfull{CNN} son particularmente relevantes para el procesamiento visual. Inspiradas en la organización jerárquica del sistema visual, las CNNs aplican filtros convolucionales que son equivariantes a traslaciones:
 
 \begin{equation}
 (h * w)[i,j] = \sum_m \sum_n h[m,n] \cdot w[i-m, j-n]
@@ -567,7 +567,7 @@ Notablemente, CNNs entrenadas para clasificación de imágenes desarrollan repre
 \subsection{Redes recurrentes}
 \label{subsec:redes_tipo_recurrentes}
 
-Como se discutió en la Sección~\ref{subsec:redes_recurrentes}, los circuitos corticales se caracterizan por conexiones recurrentes abundantes que permiten generar dinámicas temporales complejas. Las \acrfullpl{RNN} constituyen el análogo computacional de estos circuitos biológicos, extendiendo las redes feedforward al incluir conexiones que forman ciclos, permitiendo que la actividad pasada influya en el procesamiento presente \citep{heaton2018ian}. La dinámica de una RNN simple está dada por:
+Como se discutió en la Sección~\ref{subsec:redes_recurrentes}, los circuitos corticales se caracterizan por conexiones recurrentes abundantes que permiten generar dinámicas temporales complejas. Las \acrfull{RNN} constituyen el análogo computacional de estos circuitos biológicos, extendiendo las redes feedforward al incluir conexiones que forman ciclos, permitiendo que la actividad pasada influya en el procesamiento presente \citep{heaton2018ian}. La dinámica de una RNN simple está dada por:
 
 \begin{equation}
 \mathbf{h}_t = \sigma(\mathbf{W}_{hh}\mathbf{h}_{t-1} + \mathbf{W}_{xh}\mathbf{x}_t + \mathbf{b})
