@@ -29,9 +29,8 @@
 _minted*/
 *.pyg
 
-# graphviz (\usepackage[pdf]{graphviz})
-*-dot2tex-*
-*.dot
+# markdown
+_markdown_*/
 
 # WSL alternate data streams
 *:Zone.Identifier
