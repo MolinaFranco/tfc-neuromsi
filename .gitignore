@@ -1,0 +1,40 @@
+# LaTeX build artifacts
+*.aux
+*.log
+*.out
+*.toc
+*.lof
+*.lot
+*.bbl
+*.blg
+*.brf
+*.idx
+*.ilg
+*.ind
+*.glo
+*.gls
+*.glg
+*.ist
+*.acn
+*.acr
+*.alg
+*.xdy
+*.synctex.gz
+*.fdb_latexmk
+*.fls
+*.run.xml
+*.bcf
+
+# minted / shell-escape
+_minted*/
+*.pyg
+
+# graphviz (\usepackage[pdf]{graphviz})
+*-dot2tex-*
+*.dot
+
+# WSL alternate data streams
+*:Zone.Identifier
+
+# Machine-local tooling
+.claude/settings.local.json
