@@ -178,6 +178,8 @@ El modelo implementa una \textbf{red supralineal estabilizada} \acrfull{SSN}, un
 
 donde $u_i$ es el potencial de membrana, $h_i$ es la entrada feedforward dependiente del estímulo, $W_{ij}$ son los pesos sinápticos recurrentes, $r_j$ es la tasa de disparo de la neurona $j$, y $\eta_i(t)$ es ruido de proceso correlacionado temporalmente.
 
+Conviene distinguir el papel de las Ecuaciones~\ref{eq:latent_to_membrane} y \ref{eq:ssn_dynamics}, que a primera vista parecen definir dos veces la misma variable. La Ecuación~\ref{eq:latent_to_membrane} no describe ninguna dinámica: fija el código, es decir, qué valor de la variable latente $y_i$ representa cada potencial de membrana, y de ella se derivan los momentos objetivo que la red debe reproducir. Quien determina la evolución temporal de $u_i$ es exclusivamente la Ecuación~\ref{eq:ssn_dynamics}. El entrenamiento consiste justamente en ajustar los parámetros de esa dinámica para que la distribución estacionaria de los $u_i$ que ella genera coincida con la que induce la Ecuación~\ref{eq:latent_to_membrane} al muestrear $y_i$ de la posterior del \acrshort{GSM}.
+
 \subsubsection{Función de transferencia supralineal}
 
 Las tasas de disparo se derivan de los potenciales de membrana mediante una función de transferencia supralineal:
@@ -268,6 +270,8 @@ En resumen, la red tiene \textbf{15 parámetros libres}:
     \item 3 para la no linealidad de entrada ($\alpha_h$, $\beta_h$, $\gamma_h$)
 \end{itemize}
 
+El costo del entrenamiento no proviene de la cantidad de parámetros, que es mínima para los estándares del aprendizaje automático, sino de lo que cuesta evaluar el gradiente de cada uno. La función objetivo no se calcula sobre una respuesta determinista: exige simular la red estocástica completa durante cientos de milisegundos, para los cinco estímulos y para decenas de trials por estímulo, estimar a partir de esas trayectorias los momentos de la distribución de respuestas, y recién entonces propagar el gradiente hacia atrás a través de todo ese proceso temporal. Optimizar 15 parámetros así resulta considerablemente más caro que ajustar miles de pesos de una red feedforward sobre un lote de datos.
+
 \subsection{Entrenamiento para muestreo}
 \label{subsec:echeveste_entrenamiento}
 
@@ -341,14 +345,14 @@ Los primeros tres términos penalizan diferencias entre los momentos de la distr
 
 donde $\boldsymbol{\mu}^{(\alpha)}(t) = \langle \mathbf{u}(t) \rangle$ es la media across-trial de los potenciales de membrana, $\boldsymbol{\sigma}^{(\alpha)}(t) = \text{diag}(\boldsymbol{\Sigma}^{(\alpha)}(t, 0))$ es el vector de varianzas, $\boldsymbol{\Sigma}^{(\alpha)}(t, 0)$ es la matriz de covarianza instantánea, y $\|\cdot\|_F$ denota la norma de Frobenius.
 
-El cuarto término es un costo de ``lentitud'' que penaliza la autocorrelación temporal de las respuestas, incentivando que muestras consecutivas sean estadísticamente independientes:
+El cuarto término es un costo de ``lentitud'' (\textit{slowness}) que penaliza la autocorrelación temporal de las respuestas. La motivación es que una red que muestrea la posterior recorre el espacio de estados a lo largo del tiempo, y si su actividad cambia con demasiada lentitud las muestras consecutivas se parecen entre sí: en una ventana de tiempo fija se obtienen muchas muestras redundantes en lugar de muchas muestras informativas, y la estimación de la posterior converge más despacio. Penalizar la autocorrelación empuja a la red a decorrelacionarse rápido, es decir, a explorar más en el mismo tiempo:
 
 \begin{equation}
 \phi_{\text{slow}}^{(\alpha)} = \int_0^{\tau_{\max}} \left\| \text{diag}(\mathbf{C}^{(\alpha)}(\tau)) \right\|_F^2 \, d\tau
 \label{eq:cost_slow}
 \end{equation}
 
-donde $\mathbf{C}^{(\alpha)}(\tau) = \text{corr}(\mathbf{u}(t), \mathbf{u}(t + \tau))$ es la matriz de autocorrelación temporal.
+donde $\mathbf{C}^{(\alpha)}(\tau) = \text{corr}(\mathbf{u}(t), \mathbf{u}(t + \tau))$ es la matriz de correlación entre la actividad en dos instantes separados por un retardo $\tau$. Tomar su diagonal deja, para cada neurona, la correlación consigo misma a ese retardo, de modo que el término penaliza únicamente la memoria temporal de cada unidad y no las correlaciones entre neuronas, que son las que codifican la covarianza de la posterior y deben preservarse. La norma de Frobenius al cuadrado suma esas autocorrelaciones sobre toda la población y la integral las acumula sobre los retardos hasta $\tau_{\max}$: el costo es mínimo cuando la autocorrelación de cada neurona decae rápidamente a cero.
 
 \subsubsection{Procedimiento de optimización}
 
@@ -393,7 +397,7 @@ Notablemente, \citeauthor{echeveste2020cortical} validaron esta predicción anal
 
 La principal limitación del modelo de Echeveste para los propósitos de este trabajo es su restricción a \textbf{procesamiento unimodal}. El modelo fue diseñado para representar inferencia sobre características visuales de un único parche de imagen, sin considerar la integración de información de múltiples modalidades sensoriales ni el problema de la inferencia causal.
 
-Otras limitaciones incluyen la arquitectura simplificada de hipercolumna (topología de anillo) que limita la generalización a estímulos más complejos y la ausencia de mecanismos de plasticidad sináptica (en simulación) o aprendizaje continuo. Es importante notar que, si bien la red exhibe una rica dinámica temporal gracias a sus conexiones recurrentes (donde la actividad presente depende de estados anteriores), esto no implica plasticidad en el sentido biológico de reconfiguración sináptica. En el modelo, los pesos sinápticos se determinan mediante un algoritmo de optimización externo (como ADAM o L-BFGS-B) antes de la ejecución ; una vez que la red comienza a realizar inferencia, estos pesos permanecen fijos y no se adaptan a nuevos estímulos o cambios en el entorno. Finalmente, la aproximación del contraste con su valor verdadero evita abordar el problema de la inferencia jerárquica completa.
+Otras limitaciones incluyen la arquitectura simplificada de hipercolumna (topología de anillo) que limita la generalización a estímulos más complejos y la ausencia de mecanismos de plasticidad sináptica (en simulación) o aprendizaje continuo. Es importante notar que, si bien la red exhibe una rica dinámica temporal gracias a sus conexiones recurrentes (donde la actividad presente depende de estados anteriores), esto no implica plasticidad en el sentido biológico de reconfiguración sináptica. En el modelo, los pesos sinápticos se determinan mediante un algoritmo de optimización externo (como ADAM o L-BFGS-B) antes de la ejecución; una vez que la red comienza a realizar inferencia, estos pesos permanecen fijos. Esto no significa que la red responda siempre lo mismo: cada estímulo ingresa por la vía feedforward $h_i(t)$ y produce una distribución de respuestas distinta, e incluso generaliza a estímulos que no formaron parte del entrenamiento. Lo que queda congelado es el modelo interno del entorno que la conectividad encarna, de manera que la red no puede reajustarlo si la estadística de los estímulos cambia. En el cerebro ese reajuste correspondería a la plasticidad sináptica, que este modelo no aborda. Finalmente, la aproximación del contraste con su valor verdadero evita abordar el problema de la inferencia jerárquica completa.
 
 Sin embargo, el marco teórico y las técnicas de optimización desarrolladas son, en principio, generalizables a arquitecturas más complejas. La metodología de entrenar redes con restricciones biológicas para que sus distribuciones de respuesta coincidan con posteriors objetivo podría extenderse a modelos generativos multimodales que incluyan estructura causal. Esta extensión constituye la dirección que motivó inicialmente el presente trabajo.
 

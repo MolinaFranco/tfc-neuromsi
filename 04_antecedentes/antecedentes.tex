@@ -9,7 +9,7 @@
 \label{sec:historia_neuro}
 
 La neurociencia, entendida como el estudio sistemático del sistema nervioso y sus funciones, constituye uno de los campos
-de estudio científico más fascinantes y complejos de la historia humana. Comprender cómo el cerebro se relaciona con la mente, cómo las redes de neuronas dan lugar a la percepción, el pensamiento y la conciencia, ha cautivado a filósofos y científicos desde la antigüedad. Sin embargo, el camino hacia una ciencia madura del cerebro ha sido largo, marcado por revoluciones conceptuales que han transformado radicalmente nuestra comprensión \citep{blanco2014historia}.
+de estudio científico más fascinantes y complejos de la historia humana. Comprender cómo el cerebro se relaciona con la mente y cómo las redes de neuronas dan lugar a la percepción, el pensamiento y la conciencia ha cautivado a filósofos y científicos desde la antigüedad. Sin embargo, el camino hacia una ciencia madura del cerebro ha sido largo, marcado por revoluciones conceptuales que han transformado radicalmente nuestra comprensión \citep{blanco2014historia}.
 
 \begin{figure}[H]
     \centering
@@ -125,7 +125,7 @@ Estructuralmente, el \acrshort{LGN} preserva de forma estricta la organización 
 
 Funcionalmente, las neuronas del \acrshort{LGN} presentan campos receptivos con una organización centro-periferia antagonista (células ON y OFF), similar a las células ganglionares de la retina. Sin embargo, la importancia de esta etapa reside en cómo dicha configuración facilita las transformaciones de orden superior en la jerarquía visual. La convergencia espacial de múltiples neuronas del \acrshort{LGN}, cuyos campos receptivos se alinean en el espacio visual, permite que las neuronas en la capa 4 de V1 desarrollen selectividad a la orientación de bordes, una característica inexistente en etapas previas.
 
-Un aspecto crítico de su fisiología es la asimetría en sus conexiones: aunque el flujo principal de información visual es feedforward (Retina $\rightarrow$ LGN $\rightarrow$ V1), el \acrshort{LGN} recibe una cantidad significativamente mayor de conexiones feedback desde la corteza visual. Mientras que las señales de la retina actúan como "conductores" (drivers) de la respuesta sensorial, las conexiones corticales feedbacks funcionan como "moduladores". Este sistema de retroalimentación permite que niveles jerárquicos superiores (V1) regulen la ganancia de contraste y ejecuten mecanismos de atención selectiva, filtrando activamente la información que debe ser transmitida a la corteza según las demandas de la tarea visual \citep{dayan2005theoretical}. Así, el \acrshort{LGN} se establece como la primera compuerta talamocortical donde el contexto y la predicción comienzan a dar forma a la percepción sensorial.
+Un aspecto crítico de su fisiología es la asimetría en sus conexiones: aunque el flujo principal de información visual es feedforward (Retina $\rightarrow$ LGN $\rightarrow$ V1), el \acrshort{LGN} recibe una cantidad significativamente mayor de conexiones feedback desde la corteza visual. Mientras que las señales de la retina actúan como ``conductores'' (\textit{drivers}) de la respuesta sensorial, las conexiones corticales feedback funcionan como ``moduladores''. Este sistema de retroalimentación permite que niveles jerárquicos superiores (V1) regulen la ganancia de contraste y ejecuten mecanismos de atención selectiva, filtrando activamente la información que debe ser transmitida a la corteza según las demandas de la tarea visual \citep{dayan2005theoretical}. Así, el \acrshort{LGN} se establece como la primera compuerta talamocortical donde el contexto y la predicción comienzan a dar forma a la percepción sensorial.
 
 \subsubsection{Corteza visual primaria (V1)}
 
@@ -158,13 +158,13 @@ D_s(x, y) = \frac{1}{2\pi\sigma_x\sigma_y} \exp\left(-\frac{x^2}{2\sigma_x^2} - 
 
 Los parámetros de esta función determinan las propiedades del campo receptivo: $\sigma_x$ y $\sigma_y$ controlan la extensión espacial en las direcciones horizontal y vertical respectivamente, $k$ es la frecuencia espacial preferida que determina el espaciado entre bandas claras y oscuras, y $\phi$ es la fase espacial preferida que determina dónde caen los límites entre regiones ON y OFF dentro del campo receptivo. Estudios experimentales han demostrado que las funciones de Gabor proporcionan excelentes aproximaciones a los campos receptivos medidos en células simples de la corteza visual de gatos y primates \citep{dayan2005theoretical}.
 
-La orientación preferida de un filtro de Gabor se obtiene rotando el sistema de coordenadas. Y finalmente una neurona con orientación preferida $\theta$, responde máximamente a bordes orientados en dicha dirección. Estos filtros juegan un papel central en el \acrfull{GSM} utilizado por \citet{echeveste2020cortical} el cual se explicara en el Capítulo \ref{chapter:modelos_estudiados}. 
+La orientación preferida de un filtro de Gabor se obtiene rotando el sistema de coordenadas. Y finalmente una neurona con orientación preferida $\theta$, responde máximamente a bordes orientados en dicha dirección. Estos filtros juegan un papel central en el \acrfull{GSM} utilizado por \citet{echeveste2020cortical} el cual se explicará en el Capítulo \ref{chapter:modelos_estudiados}. 
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.75\textwidth]{04_antecedentes/figures/gabor-bank.jpg}
     \caption{
-    Banco de filtros de Gabor utilizados para modelar los campos receptivos de las células simples en V1. Cada subfigura representa un filtro con una combinación específica de orientación ($\theta$) y frecuencia espacial ($k$).
+    Banco de filtros de Gabor utilizados para modelar los campos receptivos de las células simples en V1. Cada subfigura representa un filtro con una combinación específica de orientación ($\theta$) y frecuencia espacial ($k$). La envolvente gaussiana se mantiene fija en todo el banco, es decir, $\sigma_x$ y $\sigma_y$ toman el mismo valor en todos los filtros, de modo que las diferencias entre subfiguras se deben únicamente a $\theta$ y $k$.
     }
     \label{fig:gabor-banks}
 \end{figure}
@@ -214,7 +214,7 @@ Un marco conceptual fundamental para la neurociencia computacional fue propuesto
 
 El \textbf{nivel computacional} aborda la pregunta de \textit{qué} computa el sistema y \textit{por qué}. En este nivel, se especifica el problema computacional que el sistema debe resolver y la lógica de la estrategia mediante la cual puede resolverse. Por ejemplo, para la corteza visual, el problema computacional podría ser inferir las características más probables de un estímulo (como su orientación o contraste) a partir de información sensorial ruidosa, representando no solo una estimación puntual, sino la incertidumbre asociada a dicha estimación.
 
-El \textbf{nivel algorítmico} pregunta \textit{cómo} se implementa el cómputo. ¿Qué representaciones utiliza el sistema? ¿Qué algoritmos transforman estas representaciones? Este nivel especifica los procedimientos concretos mediante los cuales se resuelve el problema computacional.
+El \textbf{nivel algorítmico} pregunta \textit{cómo} se lleva a cabo ese cómputo, sin comprometerse todavía con el sustrato físico que lo ejecuta. ¿Qué representaciones utiliza el sistema? ¿Qué algoritmos transforman estas representaciones? Este nivel especifica los procedimientos concretos mediante los cuales se resuelve el problema computacional.
 
 Finalmente, el \textbf{nivel de implementación} se ocupa de cómo los circuitos neuronales implementan el algoritmo. ¿Qué circuitos neuronales realizan el cómputo? ¿Cómo se codifica la información en patrones de actividad neuronal? Por ejemplo, en el caso de la inferencia probabilística, esto implica especificar cómo redes recurrentes de neuronas, pueden implementar el muestreo de distribuciones posteriores.
 
@@ -362,6 +362,8 @@ P(\mathbf{y}|\mathbf{x}) = \frac{P(\mathbf{x}|\mathbf{y})P(\mathbf{y})}{P(\mathb
 
 donde $\mathbf{y}$ representa las variables del mundo que se desean inferir, $\mathbf{x}$ son las observaciones sensoriales, $P(\mathbf{x}|\mathbf{y})$ es la verosimilitud (la probabilidad de observar los datos sensoriales $\mathbf{x}$ dado un estado específico del mundo $\mathbf{y}$), $P(\mathbf{y})$ es el conocimiento previo sobre el mundo llamado probabilidad a priori, y $P(\mathbf{y}|\mathbf{x})$ es la distribución posterior que representa la creencia actualizada tras observar los datos sensoriales.
 
+El denominador $P(\mathbf{x})$ es la probabilidad marginal de las observaciones y se obtiene integrando sobre todas las interpretaciones posibles del mundo, $P(\mathbf{x}) = \int P(\mathbf{x}|\mathbf{y})P(\mathbf{y})\, d\mathbf{y}$. Salvo en casos muy particulares esta integral no tiene solución cerrada, de modo que ningún sistema, biológico o artificial, puede evaluar la Ecuación~\ref{eq:bayes_perception} de forma exacta. Conviene entonces precisar en qué sentido decimos que el cerebro realiza inferencia bayesiana: no que aplique el teorema de manera explícita, sino que su comportamiento es consistente con el de un observador que aproxima esa distribución posterior. Cómo se construye tal aproximación es justamente el problema que aborda el modelo implementado en este trabajo, donde la red no calcula la integral sino que genera muestras de la posterior mediante su propia actividad, tal como se detalla en la Sección~\ref{subsec:echeveste_marco}.
+
 Evidencia en diversos campos sugiere que el cerebro representa distribuciones posteriores al menos de manera aproximada \citep{echeveste2020cortical}. Esta perspectiva tiene implicaciones profundas: la variabilidad en las respuestas sensoriales no sería simplemente ``ruido'' a eliminar, sino que podría reflejar la incertidumbre inherente a la inferencia sobre el estado del mundo.
 
 \subsection{Combinación óptima de señales}
@@ -382,6 +384,8 @@ donde los pesos $w_A$ y $w_V$ son proporcionales a la \textbf{confiabilidad} (in
 w_A = \frac{\sigma_V^2}{\sigma_A^2 + \sigma_V^2}, \quad w_V = \frac{\sigma_A^2}{\sigma_A^2 + \sigma_V^2}
 \label{eq:reliability_weights}
 \end{equation}
+
+Cabe aclarar que las varianzas $\sigma_A^2$ y $\sigma_V^2$ no son un dato externo que el sistema reciba junto con los estímulos, sino que deben estimarse a partir de las propias señales sensoriales. En los modelos de código poblacional que veremos más adelante esta estimación no requiere un cálculo aparte, porque la confiabilidad de cada modalidad queda representada de forma implícita en la actividad de la población que la codifica: entradas más confiables producen respuestas más intensas y más concentradas, y eso basta para que la combinación resultante se aproxime a la ponderación de la Ecuación~\ref{eq:reliability_weights}.
 
 Esta formulación captura una intuición fundamental: las señales más confiables (con menor varianza) reciben mayor peso en la estimación final. La visión, típicamente más precisa espacialmente que la audición, domina la percepción de localización cuando ambas modalidades están disponibles \citep{paredes2025scikit}.
 
@@ -563,8 +567,6 @@ Notablemente, CNNs entrenadas para clasificación de imágenes desarrollan repre
 \subsection{Redes recurrentes}
 \label{subsec:redes_tipo_recurrentes}
 
-Las \acrfullpl{RNN} extienden las redes feedforward al incluir conexiones que forman ciclos, permitiendo que la actividad pasada influya en el procesamiento presente \citep{heaton2018ian}. La dinámica de una RNN simple está dada por:
-
 Como se discutió en la Sección~\ref{subsec:redes_recurrentes}, los circuitos corticales se caracterizan por conexiones recurrentes abundantes que permiten generar dinámicas temporales complejas. Las \acrfullpl{RNN} constituyen el análogo computacional de estos circuitos biológicos, extendiendo las redes feedforward al incluir conexiones que forman ciclos, permitiendo que la actividad pasada influya en el procesamiento presente \citep{heaton2018ian}. La dinámica de una RNN simple está dada por:
 
 \begin{equation}
@@ -574,7 +576,7 @@ Como se discutió en la Sección~\ref{subsec:redes_recurrentes}, los circuitos c
 
 donde $\mathbf{h}_t$ es el estado oculto en el tiempo $t$ y $\mathbf{x}_t$ es la entrada.
 
-Las RNNs son el análogo computacional de los circuitos corticales recurrentes. Arquitecturas como \acrfull{LSTM} y \acrfull{GRU} incorporan mecanismos de compuerta que permiten mantener información relevante a lo largo de secuencias largas \citep{heaton2018ian}.
+Arquitecturas como \acrfull{LSTM} y \acrfull{GRU} incorporan mecanismos de compuerta que permiten mantener información relevante a lo largo de secuencias largas \citep{heaton2018ian}.
 
 En el contexto de este trabajo, las RNNs con restricciones biológicas dadas por poblaciones E-I separadas, funciones de activación plausibles y ruido de proceso, proporcionan un marco para estudiar cómo las dinámicas corticales pueden implementar funciones computacionales como la inferencia probabilística.
 
